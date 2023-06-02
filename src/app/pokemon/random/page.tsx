@@ -14,16 +14,29 @@ type Pokemon = {
 	}>;
 };
 
-async function getRandomPokemon(): Promise<Pokemon> {
-	const response = await fetch("/api/pokemon/random", {
-		// cache: "no-store",
-	});
-	const pokemon = await response.json();
-	return pokemon;
+async function getRandomPokemon(): Promise<Pokemon | undefined> {
+	try {
+		const response = await fetch("/api/pokemon/random", {
+			// cache: "no-store",
+		});
+		const pokemon = await response.json();
+		return pokemon;
+	} catch (error) {
+		console.error(error);
+		return;
+	}
 }
 
 export default async function RandomPokemonPage() {
 	const pokemon = await getRandomPokemon();
+
+	if (!pokemon) {
+		return (
+			<section className="flex w-full justify-center items-center">
+				<p className="font-bold text-2xl">Could not find pokemon</p>
+			</section>
+		);
+	}
 
 	return (
 		<section className="flex w-full justify-evenly items-center">
