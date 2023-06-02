@@ -15,7 +15,7 @@ type Pokemon = {
 };
 
 async function getRandomPokemon(): Promise<Pokemon> {
-	const response = await fetch("http://localhost:3003/api/pokemon/random", {
+	const response = await fetch("/api/pokemon/random", {
 		// cache: "no-store",
 	});
 	const pokemon = await response.json();
